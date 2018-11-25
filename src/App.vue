@@ -18,7 +18,7 @@ export default {
     data: function() {
         return {
             tileData: tileData,
-            perspective: false,
+            perspective: true,
         }
     },
     computed: {
