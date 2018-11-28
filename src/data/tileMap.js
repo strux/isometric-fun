@@ -1,12 +1,12 @@
 const elevationMap = [
     '3333333333',
-    '3333333333',
-    '3333333333',
+    '3333353333',
+    '3333343333',
     '3333333333',
     '3332222333',
+    '3332622333',
+    '3332022333',
     '3332122333',
-    '3332122333',
-    '3332222333',
     '3333333333',
     '3333333333',
 ]
@@ -15,7 +15,7 @@ const typeMap = [
     'dddddddddd',
     'dddddddddd',
     'dddddddddd',
-    'ddssssssdd',
+    'ddsssdssdd',
     'ddssssssdd',
     'ddssssssdd',
     'ddssssssdd',
@@ -26,14 +26,14 @@ const typeMap = [
 
 const typeDict = {
     d: {
-        topColor: 'hsl(132, 36%, 45%)',
-        wallColor: 'hsl(37, 62%, 35%)',
+        topHSL: [132, 36, 45],
+        wallHSL: [37, 62, 35],
         opacity: 1,
         shadowOpacity: 0.2,
     },
     s: {
-        topColor: 'hsl(64, 57%, 65%)',
-        wallColor: 'hsl(64, 57%, 65%)',
+        topHSL: [64, 57, 65],
+        wallHSL: [64, 57, 65],
         sideOpacity: 0,
         shadowOpacity: 0.2,
     },

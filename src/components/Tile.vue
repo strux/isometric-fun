@@ -21,6 +21,16 @@ export default {
         }
     },
     computed: {
+        topColor() {
+            let hsl = this.tileData.topHSL
+            let hslString = `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`
+            return hslString
+        },
+        wallColor() {
+            let hsl = this.tileData.wallHSL
+            let hslString = `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`
+            return hslString
+        },
         wrapperStyle() {
             return {
                 position: 'absolute',
@@ -34,7 +44,7 @@ export default {
                 boxSizing: 'border-box',
                 width: `${this.tileSize}px`,
                 height: `${this.tileSize}px`,
-                backgroundColor: this.tileData.topColor,
+                backgroundColor: this.topColor,
                 opacity: this.tileData.opacity,
             }
         },
@@ -57,7 +67,7 @@ export default {
                 position: 'absolute',
                 width: `${this.hypotenuse}px`,
                 height: '400px',
-                backgroundColor: this.tileData.wallColor,
+                backgroundColor: this.wallColor,
                 transformOrigin: 'center top',
                 transform: 'translate(-11px,25px) rotate(-45deg)',
             }
