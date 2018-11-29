@@ -11,26 +11,15 @@
 <script>
 export default {
     name: 'Tile',
-    props: ['x', 'y', 'tileData', 'mapColumns', 'mapRows'],
+    props: ['x', 'y', 'time', 'tileData', 'mapColumns', 'mapRows'],
     data: function() {
         return {
             tileSize: 50,
             stepHeight: 10,
             waterLevel: 2,
-            time: 0,
         }
     },
     computed: {
-        topColor() {
-            let hsl = this.tileData.topHSL
-            let hslString = `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`
-            return hslString
-        },
-        wallColor() {
-            let hsl = this.tileData.wallHSL
-            let hslString = `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`
-            return hslString
-        },
         wrapperStyle() {
             return {
                 position: 'absolute',
@@ -44,7 +33,7 @@ export default {
                 boxSizing: 'border-box',
                 width: `${this.tileSize}px`,
                 height: `${this.tileSize}px`,
-                backgroundColor: this.topColor,
+                backgroundColor: this.timeColor(this.tileData.topHSL),
                 opacity: this.tileData.opacity,
             }
         },
@@ -55,7 +44,7 @@ export default {
                     boxSizing: 'border-box',
                     width: `${this.tileSize}px`,
                     height: `${this.tileSize}px`,
-                    backgroundColor: `hsl(219, 100%, 50%)`,
+                    backgroundColor: this.timeColor([219, 100, 50]), //`hsl(219, 100%, 50%)`,
                     opacity: 0.3,
                     top: `-${(this.waterLevel - this.tileData.elevation + 1) * this.stepHeight}px`,
                     left: `-${(this.waterLevel - this.tileData.elevation + 1) * this.stepHeight}px`,
@@ -67,7 +56,7 @@ export default {
                 position: 'absolute',
                 width: `${this.hypotenuse}px`,
                 height: '400px',
-                backgroundColor: this.wallColor,
+                backgroundColor: this.timeColor(this.tileData.wallHSL),
                 transformOrigin: 'center top',
                 transform: 'translate(-11px,25px) rotate(-45deg)',
             }
@@ -94,6 +83,21 @@ export default {
         },
         top() {
             return (this.y * this.tileSize) - this.height
+        },
+        timeColor(hsl) {
+            let sStart = 6
+            let sStep = (hsl[1] - 10) / (11 - sStart)
+
+            let lStart = 6
+            let lStep = (hsl[2] - 15) / (11 - lStart)
+
+            hsl = [
+                Math.max(0, hsl[0] - this.time * 6),
+                hsl[1] - (Math.max(0, this.time - sStart) * sStep),
+                hsl[2] - (Math.max(0, this.time - lStart) * lStep),
+            ]
+            console.log(hsl);
+            return `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`
         },
     },
 }

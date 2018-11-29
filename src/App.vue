@@ -1,9 +1,10 @@
 <template>
     <div id="app">
         <button v-on:click="perspective = !perspective">Toggle perspective</button>
+        <input type="range" min="0" max="11" value="0" v-model="time">
         <div :style="wrapperStyle">
             <div class="row" v-for="(val, rowIndex) in tileData.height" :key="rowIndex">
-                <tile v-for="(val, columnIndex) in tileData.width" :x="columnIndex" :y="rowIndex" :tileData="tileData.tiles[tileIndex(columnIndex, rowIndex)]" :mapColumns="tileData.width" :mapRows="tileData.height" :key="columnIndex + ',' + rowIndex"></tile>
+                <tile v-for="(val, columnIndex) in tileData.width" :x="columnIndex" :y="rowIndex" :time="time" :tileData="tileData.tiles[tileIndex(columnIndex, rowIndex)]" :mapColumns="tileData.width" :mapRows="tileData.height" :key="columnIndex + ',' + rowIndex"></tile>
             </div>
         </div>
     </div>
@@ -19,6 +20,7 @@ export default {
         return {
             tileData: tileData,
             perspective: true,
+            time: 0,
         }
     },
     computed: {
