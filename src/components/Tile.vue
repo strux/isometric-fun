@@ -96,7 +96,6 @@ export default {
                 hsl[1] - (Math.max(0, this.time - sStart) * sStep),
                 hsl[2] - (Math.max(0, this.time - lStart) * lStep),
             ]
-            console.log(hsl);
             return `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`
         },
     },

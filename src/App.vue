@@ -2,16 +2,12 @@
     <div id="app">
         <button v-on:click="perspective = !perspective">Toggle perspective</button>
         <input type="range" min="0" max="11" value="0" v-model="time">
-        <div :style="wrapperStyle">
-            <div class="row" v-for="(val, rowIndex) in tileData.height" :key="rowIndex">
-                <tile v-for="(val, columnIndex) in tileData.width" :x="columnIndex" :y="rowIndex" :time="time" :tileData="tileData.tiles[tileIndex(columnIndex, rowIndex)]" :mapColumns="tileData.width" :mapRows="tileData.height" :key="columnIndex + ',' + rowIndex"></tile>
-            </div>
-        </div>
+        <tile-renderer :style="wrapperStyle" :tile-data="tileData" :time="time"></tile-renderer>
     </div>
 </template>
 
 <script>
-import Tile from './components/Tile.vue'
+import TileRenderer from './components/TileRenderer.vue'
 import tileData from './data/tileMap.js'
 
 export default {
@@ -38,12 +34,9 @@ export default {
         },
     },
     methods: {
-        tileIndex(x, y) {
-            return (y * tileData.width) + x
-        },
     },
     components: {
-       Tile,
+       TileRenderer,
     }
 }
 </script>
