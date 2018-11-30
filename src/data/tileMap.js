@@ -23,6 +23,22 @@ const typeMap = [
   'ddssssssdd',
   'dddddddddd',
 ]
+/*
+const elevationMap = [
+  '44444',
+  '44444',
+  '44444',
+  '44444',
+  '44444',
+]
+const typeMap = [
+  'sssss',
+  'sssss',
+  'sssss',
+  'sssss',
+  'sssss',
+]
+*/
 
 const typeDict = {
   d: {
@@ -46,7 +62,7 @@ for (let i=0; i<elevationMap.length; i++) {
     for (let j=0; j<elevations.length; j++) {
       tiles[(i * elevations.length) + j] = { 
         ...typeDict[types[j]],
-        elevation: elevations[j],
+        elevation: parseInt(elevations[j]),
       }
     }
 }
@@ -54,6 +70,7 @@ for (let i=0; i<elevationMap.length; i++) {
 const tileData = {
   viewWidth: 5,
   viewHeight: 5,
+  waterLevel: 3,
   width: elevationMap[0].length,
   height: elevationMap.length,
   tiles: tiles

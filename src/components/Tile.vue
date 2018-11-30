@@ -11,11 +11,10 @@
 <script>
 export default {
   name: 'Tile',
-  props: ['x', 'y', 'time', 'tileData', 'tileSize'],
+  props: ['x', 'y', 'time', 'tileData', 'tileSize', 'waterLevel'],
   data: function() {
     return {
       stepHeight: 10,
-      waterLevel: 2,
     }
   },
   computed: {
@@ -37,16 +36,16 @@ export default {
       }
     },
     waterStyle() {
-      if (this.tileData.elevation <= this.waterLevel) {
+      if (this.tileData.elevation < this.waterLevel) {
         return {
           position: 'relative',
           boxSizing: 'border-box',
           width: `${this.tileSize}px`,
           height: `${this.tileSize}px`,
-          backgroundColor: this.timeColor([219, 100, 50]), //`hsl(219, 100%, 50%)`,
+          backgroundColor: this.timeColor([219, 100, 50]),
           opacity: 0.3,
-          top: `-${(this.waterLevel - this.tileData.elevation + 1) * this.stepHeight}px`,
-          left: `-${(this.waterLevel - this.tileData.elevation + 1) * this.stepHeight}px`,
+          top: `-${(this.waterLevel - this.tileData.elevation) * this.stepHeight}px`,
+          left: `-${(this.waterLevel - this.tileData.elevation) * this.stepHeight}px`,
         }
       }
     },
@@ -69,7 +68,7 @@ export default {
         backgroundColor: `hsla(0, 100%, 0%, ${this.tileData.shadowOpacity})`,
       }
     },
-    height() {
+    elevation() {
       return (this.tileData.elevation - this.waterLevel) * this.stepHeight
     },
     hypotenuse() {
@@ -78,10 +77,12 @@ export default {
   },
   methods: {
     left() {
-      return this.x * this.tileSize - this.height
+      // the -1 is to add a left buffer tile
+      return ((this.x - 1) * this.tileSize) - this.elevation
     },
     top() {
-      return (this.y * this.tileSize) - this.height
+      // the -1 is to add a top buffer tile
+      return ((this.y - 1) * this.tileSize) - this.elevation
     },
     timeColor(hsl) {
       let sStart = 6

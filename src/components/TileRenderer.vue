@@ -7,7 +7,8 @@
         :y="rowIndex - playerPosition[1]"
         :time="time"
         :tile-size="tileSize"
-        :tileData="tileData.tiles[tileIndex(columnIndex, rowIndex)]"
+        :tile-data="tileData.tiles[tileIndex(columnIndex, rowIndex)]"
+        :water-level="tileData.waterLevel"
         :key="columnIndex + ',' + rowIndex">
       </tile>
     </div>
@@ -27,16 +28,18 @@ export default {
   },
   computed: {
     visibleRows () {
-      return this.range(this.playerPosition[1], this.playerPosition[1] + (this.tileData.viewHeight-1))
+      // we are rendering one extra row for when there are transparent tiles at the top (water)
+      return this.range(this.playerPosition[1], this.playerPosition[1] + (this.tileData.viewHeight))
     },
     visibleColumns () {
-      return this.range(this.playerPosition[0], this.playerPosition[0] + (this.tileData.viewWidth-1))
+      // we are rendering one extra row for when there are transparent tiles at the left (water)
+      return this.range(this.playerPosition[0], this.playerPosition[0] + (this.tileData.viewWidth))
     },
     maskStyle () {
       return {
         width: `${this.tileSize * this.tileData.viewWidth}px`,
         height: `${this.tileSize * this.tileData.viewHeight}px`,
-        //overflow: 'hidden',
+        overflow: 'hidden',
       }
     },
   },

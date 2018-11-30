@@ -28,7 +28,7 @@ export default {
       if (this.perspective) {
         style = {
           ...style,
-          transform: 'scale(1,0.5) rotate(45deg) translate(50%)',
+          transform: 'scale(1, 0.5) translate(25%, 0%) rotate(45deg)',
         }
       }
       return style
