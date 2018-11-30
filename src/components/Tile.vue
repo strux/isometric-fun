@@ -11,10 +11,9 @@
 <script>
 export default {
   name: 'Tile',
-  props: ['x', 'y', 'time', 'tileData', 'mapColumns', 'mapRows'],
+  props: ['x', 'y', 'time', 'tileData', 'tileSize'],
   data: function() {
     return {
-      tileSize: 50,
       stepHeight: 10,
       waterLevel: 2,
     }

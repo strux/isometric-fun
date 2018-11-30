@@ -2,7 +2,7 @@
   <div id="app">
     <button v-on:click="perspective = !perspective">Toggle perspective</button>
     <input type="range" min="0" max="11" value="0" v-model="time">
-    <tile-renderer :style="wrapperStyle" :tile-data="tileData" :time="time"></tile-renderer>
+    <tile-renderer :style="wrapperStyle" :player-position="playerPosition" :tile-data="tileData" :time="time"></tile-renderer>
   </div>
 </template>
 
@@ -17,6 +17,7 @@ export default {
       tileData: tileData,
       perspective: true,
       time: 0,
+      playerPosition: [0,0],
     }
   },
   computed: {
@@ -34,10 +35,39 @@ export default {
     },
   },
   methods: {
+    moveKeys () {
+      return { 37: 'left', 38: 'up', 39: 'right', 40: 'down' }
+    },
+    handleKeys(e) {
+      let code = e.keyCode.toString()
+      if (Object.keys(this.moveKeys()).includes(code)) {
+        this.movePlayer(this.moveKeys()[code])
+        e.preventDefault()
+      }
+    },
+    movePlayer(direction) {
+      switch (direction) {
+        case 'up':
+          this.playerPosition.splice(1, 1, this.playerPosition[1] - 1)
+          break
+        case 'down':
+          this.playerPosition.splice(1, 1, this.playerPosition[1] + 1)
+          break
+        case 'left':
+          this.playerPosition.splice(0, 1, this.playerPosition[0] - 1)
+          break
+        case 'right':
+          this.playerPosition.splice(0, 1, this.playerPosition[0] + 1)
+          break
+      }
+    },
   },
   components: {
     TileRenderer,
-  }
+  },
+  mounted() {
+    window.addEventListener("keydown", this.handleKeys)
+  },
 }
 </script>
 

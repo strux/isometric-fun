@@ -52,8 +52,8 @@ for (let i=0; i<elevationMap.length; i++) {
 }
 
 const tileData = {
-  viewWidth: 3,
-  viewHeight: 3,
+  viewWidth: 5,
+  viewHeight: 5,
   width: elevationMap[0].length,
   height: elevationMap.length,
   tiles: tiles
