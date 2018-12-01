@@ -6,8 +6,9 @@
       :tile-data="tileData"
       :time="time"
       v-if="editing"
-      v-on:set-time="time = $event"
       v-on:toggle-perspective="perspective = !perspective"
+      v-on:set-time="time = $event"
+      v-on:set-water-level="tileData.waterLevel = $event"
     ></edit-tools>
   </div>
 </template>

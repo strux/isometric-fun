@@ -1,7 +1,10 @@
 <template>
   <div :style="style">
     <button v-on:click="$emit('toggle-perspective')">Toggle perspective</button>
-    <input type="range" min="0" max="11" v-bind:value="time" v-on:change="$emit('set-time', $event.target.value)">
+    <label for="time">Time</label>
+    <input id="time" type="range" min="0" max="11" v-bind:value="time" v-on:change="$emit('set-time', $event.target.value)">
+    <label for="waterLevel">Water Level</label>
+    <input id="waterLevel" type="range" min="0" max="9" v-bind:value="tileData.waterLevel" v-on:change="$emit('set-water-level', $event.target.value)">
   </div>
 </template>
 
@@ -33,4 +36,7 @@ export default {
 </script>
 
 <style scoped>
+  label, input {
+    display: block;
+  }
 </style>
