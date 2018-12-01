@@ -1,12 +1,19 @@
 <template>
   <div id="app">
-    <button v-on:click="perspective = !perspective">Toggle perspective</button>
-    <input type="range" min="0" max="11" value="0" v-model="time">
+    <button v-on:click="editing = !editing">Toggle edit mode</button>
+    <edit-tools
+      :tile-data="tileData"
+      :time="time"
+      v-if="editing"
+      v-on:set-time="time = $event"
+      v-on:toggle-perspective="perspective = !perspective"
+    ></edit-tools>
     <tile-renderer :style="wrapperStyle" :player-position="playerPosition" :tile-data="tileData" :time="time"></tile-renderer>
   </div>
 </template>
 
 <script>
+import EditTools from './components/EditTools.vue'
 import TileRenderer from './components/TileRenderer.vue'
 import tileData from './data/tileMap.js'
 
@@ -16,6 +23,7 @@ export default {
     return {
       tileData: tileData,
       perspective: true,
+      editing: true,
       time: 0,
       playerPosition: [0,0],
     }
@@ -63,6 +71,7 @@ export default {
     },
   },
   components: {
+    EditTools,
     TileRenderer,
   },
   mounted() {
