@@ -86,17 +86,17 @@ export default {
     },
     timeColor(hsl) {
       let sStart = 6
-        let sStep = (hsl[1] - 10) / (11 - sStart)
+      let sStep = (hsl[1] - 10) / (11 - sStart)
 
-        let lStart = 6
-        let lStep = (hsl[2] - 15) / (11 - lStart)
+      let lStart = 5
+      let lStep = (hsl[2] - 15) / (11 - lStart)
 
-        hsl = [
-        Math.max(0, hsl[0] - this.time * 6),
+      hsl = [
+        Math.max(0, hsl[0] - this.time * 5),
         hsl[1] - (Math.max(0, this.time - sStart) * sStep),
-        hsl[2] - (Math.max(0, this.time - lStart) * lStep),
-        ]
-          return `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`
+        Math.max(30, hsl[2] - (Math.max(0, this.time - lStart) * lStep)),
+      ]
+      return `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`
     },
   },
 }
