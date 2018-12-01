@@ -9,6 +9,7 @@
       v-on:toggle-perspective="perspective = !perspective"
       v-on:set-time="time = $event"
       v-on:set-water-level="tileData.waterLevel = $event"
+      v-on:set-tile-data="tileData = $event"
     ></edit-tools>
   </div>
 </template>

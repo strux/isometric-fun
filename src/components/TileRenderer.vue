@@ -9,7 +9,8 @@
         :tile-size="tileSize"
         :tile-data="tileData.tiles[tileIndex(columnIndex, rowIndex)]"
         :water-level="tileData.waterLevel"
-        :key="columnIndex + ',' + rowIndex">
+        :key="columnIndex + ',' + rowIndex"
+      >
       </tile>
     </div>
   </div>
@@ -28,7 +29,7 @@ export default {
   },
   computed: {
     visibleRows () {
-      let rows = this.tileData.height - 1
+      let rows = this.range(0, this.tileData.height - 1)
       if (!this.editing) {
         // we are rendering one extra row for when there are transparent tiles at the top (water)
         rows = this.range(this.playerPosition[1], this.playerPosition[1] + (this.tileData.viewHeight))
@@ -36,7 +37,7 @@ export default {
       return rows
     },
     visibleColumns () {
-      let columns = this.tileData.width - 1
+      let columns = this.range(0, this.tileData.width - 1)
       if (!this.editing) {
         // we are rendering one extra row for when there are transparent tiles at the left (water)
         columns = this.range(this.playerPosition[0], this.playerPosition[0] + (this.tileData.viewWidth))
@@ -44,10 +45,12 @@ export default {
       return columns
     },
     maskStyle () {
+      let width = this.editing ? this.tileData.width : this.tileData.viewWidth
+      let height = this.editing ? this.tileData.height : this.tileData.viewHeight
       return {
-        width: `${this.tileSize * this.tileData.viewWidth}px`,
-        height: `${this.tileSize * this.tileData.viewHeight}px`,
-        overflow: this.editing ? 'visible' : 'hidden',
+        width: `${this.tileSize * width}px`,
+        height: `${this.tileSize * height}px`,
+        overflow: 'hidden',
       }
     },
   },
