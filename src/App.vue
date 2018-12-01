@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <button v-on:click="editing = !editing">Toggle edit mode</button>
+    <button v-on:click="onToggleEdit">Toggle edit mode</button>
+    <tile-renderer :style="wrapperStyle" :player-position="playerPosition" :tile-data="tileData" :time="time" :editing="editing"></tile-renderer>
     <edit-tools
       :tile-data="tileData"
       :time="time"
@@ -8,7 +9,6 @@
       v-on:set-time="time = $event"
       v-on:toggle-perspective="perspective = !perspective"
     ></edit-tools>
-    <tile-renderer :style="wrapperStyle" :player-position="playerPosition" :tile-data="tileData" :time="time"></tile-renderer>
   </div>
 </template>
 
@@ -22,10 +22,11 @@ export default {
   data: function() {
     return {
       tileData: tileData,
-      perspective: true,
+      perspective: false,
       editing: true,
       time: 0,
       playerPosition: [0,0],
+      savedPlayerPosition: [0,0],
     }
   },
   computed: {
@@ -47,10 +48,12 @@ export default {
       return { 37: 'left', 38: 'up', 39: 'right', 40: 'down' }
     },
     handleKeys(e) {
-      let code = e.keyCode.toString()
-      if (Object.keys(this.moveKeys()).includes(code)) {
-        this.movePlayer(this.moveKeys()[code])
-        e.preventDefault()
+      if (!this.editing) {
+        let code = e.keyCode.toString()
+        if (Object.keys(this.moveKeys()).includes(code)) {
+          this.movePlayer(this.moveKeys()[code])
+          e.preventDefault()
+        }
       }
     },
     movePlayer(direction) {
@@ -69,6 +72,17 @@ export default {
           break
       }
     },
+    onToggleEdit() {
+      if (this.editing) {
+        this.perspective = true
+        this.playerPosition = this.savedPlayerPosition.slice() // clone array
+      } else {
+        this.perspective = false
+        this.savedPlayerPosition = this.playerPosition.slice() // clone array
+        this.playerPosition = [0,0]
+      }
+      this.editing = !this.editing
+    }
   },
   components: {
     EditTools,
