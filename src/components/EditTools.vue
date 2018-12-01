@@ -6,7 +6,9 @@
     <label for="waterLevel">Water Level</label>
     <input id="waterLevel" type="range" min="0" max="9" v-bind:value="tileData.waterLevel" v-on:change="$emit('set-water-level', $event.target.value)">
     <label for="rows">Map Rows</label>
-    <input id="rows" type="range" min="1" max="100" v-bind:value="tileData.height" v-on:change="updateRows">
+    <input id="rows" type="range" min="0" max="100" v-bind:value="tileData.height" v-on:change="updateRows">
+    <label for="columns">Map Columns</label>
+    <input id="columns" type="range" min="0" max="100" v-bind:value="tileData.width" v-on:change="updateColumns">
   </div>
 </template>
 
@@ -36,23 +38,41 @@ export default {
   methods: {
     updateRows(event) {
       let totalRows = parseInt(event.target.value)
-      let rowCount = totalRows - this.tileData.height
-      let tileCount = rowCount * this.tileData.width
-      this.localTileData.height = totalRows
-      if(rowCount > 0) {
-        let newTiles = Array(tileCount).fill({ ...tileDict['d'], elevation: this.tileData.waterLevel })
-        this.localTileData.tiles.push(...newTiles)
+      let newRowCount = totalRows - this.tileData.height
+      let newTileCount = newRowCount * this.tileData.width
+      if (newRowCount > 0) {
+        let newTiles = Array(newTileCount).fill({ ...tileDict['d'], elevation: this.tileData.waterLevel })
+          this.localTileData.tiles.push(...newTiles)
       } else {
-        this.localTileData.tiles.splice(tileCount, -tileCount)
+        this.localTileData.tiles.splice(newTileCount, -newTileCount)
       }
+      this.localTileData.height = totalRows
       this.$emit('set-tile-data', this.localTileData)
-    }
+    },
+    updateColumns(event) {
+      let totalColumns = parseInt(event.target.value)
+      let newColumnCount = totalColumns - this.tileData.width
+      if (newColumnCount > 0) {
+        for (let i=0; i<this.localTileData.height; i++) {
+          let newTiles = Array(newColumnCount).fill({ ...tileDict['d'], elevation: this.tileData.waterLevel })
+          let index = this.localTileData.width * (i + 1) + (newColumnCount * i)
+          this.localTileData.tiles.splice(index+1, 0, ...newTiles)
+        }
+      } else {
+        for (let i=0; i<this.localTileData.height; i++) {
+          let index = this.localTileData.width * (i + 1) + (newColumnCount * i)
+          this.localTileData.tiles.splice(index+1, -newColumnCount)
+        }
+      }
+      this.localTileData.width = totalColumns
+      this.$emit('set-tile-data', this.localTileData)
+    },
   },
 }
 </script>
 
-<style scoped>
-  label, input {
-    display: block;
-  }
-</style>
+          <style scoped>
+label, input {
+  display: block;
+}
+          </style>
